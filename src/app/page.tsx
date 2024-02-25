@@ -28,7 +28,7 @@ export default function Home() {
     }
     return (
         <div className="flex flex-col items-center h-screen w-screen border border-white rounded-2xl gap-10 p-20">
-            <h1 className="text-5xl mt-10">Yet Another Solana Balance Fetcher</h1>
+            <p className="text-5xl font-bold"><span className="text-red-600 line-through">Yet Another</span> Solana Balance Fetcher</p>
             <div className="flex flex-col items-center gap-5">
                 <h2 className="text-3xl my-10">
                     Enter your Solana address
@@ -48,7 +48,7 @@ export default function Home() {
                 </div>
             </div>
             <div
-                className="w-3/4 h-5/6 border border-white rounded-2xl p-2 gap-20 items-center justify-center flex flex-col">
+                className="w-3/4 h-5/6 border border-white rounded-2xl p-2 gap-20 items-center justify-center flex flex-col text-2xl">
                 <div>Address: {address}</div>
                 <div>Balance: {balance} SOL</div>
                 <div>Executable?: {executable.valueOf()}</div>
