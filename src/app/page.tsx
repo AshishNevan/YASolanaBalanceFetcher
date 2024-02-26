@@ -7,21 +7,24 @@ export default function Home() {
     const [text, setText] = useState('')
     const [balance, setBalance] = useState(0);
     const [address, setAddress] = useState('');
-    const [executable, setExecutable] = useState('');
+    const [executable, setExecutable] = useState(false);
     const [cluster, setCluster] = useState('devnet');
     const addressHandler = async (address: string) => {
         try {
             console.log(address);
             const pubkey = new web3.PublicKey(address);
             setAddress(pubkey.toBase58());
-            setExecutable((web3.PublicKey.isOnCurve(pubkey.toBuffer()).toString()));
+
             // @ts-ignore
             const conn = new web3.Connection(clusterApiUrl(cluster))
+            conn.getAccountInfo(pubkey).then(info => {
+                setExecutable(info?.executable ?? false);
+            })
             conn.getBalance(pubkey).then(balance => setBalance(balance / web3.LAMPORTS_PER_SOL));
         } catch (error) {
             setAddress('')
             setBalance(0)
-            setExecutable('')
+            setExecutable(false)
             alert(error)
         }
 
@@ -42,16 +45,16 @@ export default function Home() {
                         <option value={'devnet'}>Devnet</option>
                         <option value={'testnet'}>Testnet</option>
                     </select>
-                    <button className="rounded-2xl bg-blue-600 p-1.5 border border-blue-200 shadow-lg"
+                    <button className="rounded-xl bg-blue-600 p-1.5 border border-blue-200 shadow-lg"
                             onClick={async () => addressHandler(text)}>Go!
                     </button>
                 </div>
             </div>
             <div
-                className="w-3/4 h-5/6 border border-white rounded-2xl p-2 gap-20 items-center justify-center flex flex-col text-2xl">
+                className="min-w-96 h-fit border border-white rounded-2xl p-2 gap-20 items-center justify-center flex flex-col text-2xl">
                 <div>Address: {address}</div>
                 <div>Balance: {balance} SOL</div>
-                <div>Executable?: {executable.valueOf()}</div>
+                <div>Executable?: {executable? 'Yes':'Nope'}</div>
             </div>
 
         </div>
