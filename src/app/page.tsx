@@ -1,6 +1,5 @@
 'use client';
 import * as web3 from '@solana/web3.js'
-import {clusterApiUrl} from '@solana/web3.js'
 import {useState} from 'react'
 
 export default function Home() {
@@ -8,7 +7,10 @@ export default function Home() {
     const [balance, setBalance] = useState(0);
     const [address, setAddress] = useState('');
     const [executable, setExecutable] = useState(false);
-    const [cluster, setCluster] = useState('devnet');
+    const devnet = process.env.NEXT_PUBLIC_DEVNET_API
+    const mainnet = process.env.NEXT_PUBLIC_MAINNET_API
+    const testnet = "https://api.testnet.solana.com"
+    const [cluster, setCluster] = useState(testnet);
     const addressHandler = async (address: string) => {
         try {
             console.log(address);
@@ -16,7 +18,7 @@ export default function Home() {
             setAddress(pubkey.toBase58());
 
             // @ts-ignore
-            const conn = new web3.Connection(clusterApiUrl(cluster))
+            const conn = new web3.Connection(cluster)
             conn.getAccountInfo(pubkey).then(info => {
                 setExecutable(info?.executable ?? false);
             })
@@ -41,9 +43,9 @@ export default function Home() {
                            type={"text"} value={text} onChange={(e) => setText(e.target.value)}/>
                     <select className="bg-gray-800 text-white border border-gray-600 rounded-xl p-1" value={cluster}
                             onChange={(e) => setCluster(e.target.value)}>
-                        <option disabled={true} value={'mainnet-beta'}>Mainnet-beta</option>
-                        <option value={'devnet'}>Devnet</option>
-                        <option value={'testnet'}>Testnet</option>
+                        <option value={mainnet}>Mainnet-beta</option>
+                        <option value={devnet}>Devnet</option>
+                        <option value={testnet}>Testnet</option>
                     </select>
                     <button className="rounded-xl bg-blue-600 p-1.5 border border-blue-200 shadow-lg"
                             onClick={async () => addressHandler(text)}>Go!
