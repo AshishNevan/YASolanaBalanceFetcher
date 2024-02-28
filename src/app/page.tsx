@@ -1,6 +1,6 @@
 'use client';
 import * as web3 from '@solana/web3.js'
-import {useState} from 'react'
+import { useState } from 'react'
 
 export default function Home() {
     const [text, setText] = useState('')
@@ -40,15 +40,15 @@ export default function Home() {
                 </h2>
                 <div className="flex flex-row items-center gap-5">
                     <input id="addressbox" className="bg-gray-900 text-white border border-gray-600 rounded-xl p-1"
-                           type={"text"} value={text} onChange={(e) => setText(e.target.value)}/>
+                        type={"text"} value={text} onChange={(e) => setText(e.target.value)} />
                     <select className="bg-gray-800 text-white border border-gray-600 rounded-xl p-1" value={cluster}
-                            onChange={(e) => setCluster(e.target.value)}>
+                        onChange={(e) => setCluster(e.target.value)}>
                         <option value={mainnet}>Mainnet-beta</option>
                         <option value={devnet}>Devnet</option>
                         <option value={testnet}>Testnet</option>
                     </select>
                     <button className="rounded-xl bg-blue-600 p-1.5 border border-blue-200 shadow-lg"
-                            onClick={async () => addressHandler(text)}>Go!
+                        onClick={async () => addressHandler(text)}>Go!
                     </button>
                 </div>
             </div>
@@ -56,7 +56,7 @@ export default function Home() {
                 className="min-w-96 h-fit border border-white rounded-2xl p-2 gap-20 items-center justify-center flex flex-col text-2xl">
                 <div>Address: {address}</div>
                 <div>Balance: {balance} SOL</div>
-                <div>Executable?: {executable? 'Yes':'Nope'}</div>
+                <div>Executable?: {executable ? 'Yes' : 'Nope'}</div>
             </div>
 
         </div>
